@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-primary: #0072ff;
+  --color-accent: #00f2fe;
+  --color-dark: #050505;
+}
+
+body {
+  background-color: var(--color-dark);
+  color: white;
+}

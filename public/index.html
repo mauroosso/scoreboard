@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard</title>
+    <script src="/config.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=Roboto+Condensed:wght@800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/scoreboard.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Geometric accent edges -->
+      <div class="accent-left"></div>
+      <div class="accent-right"></div>
+
+      <!-- Home team -->
+      <div class="cell team" id="home-team-wrap">
+        <div class="logo" id="home-logo"></div>
+        <div class="team-name" id="home-team">LOCAL</div>
+      </div>
+
+      <!-- Home score -->
+      <div class="cell score-cell home">
+        <div class="score" id="home-score">0</div>
+      </div>
+
+      <!-- Clock center -->
+      <div id="clock-container" class="cell">
+        <div class="clock" id="clock">00:00</div>
+        <div class="meta">
+          <span class="badge" id="period">Q1</span>
+          <span class="badge status-pre" id="status">PRE</span>
+        </div>
+      </div>
+
+      <!-- Away score -->
+      <div class="cell score-cell away">
+        <div class="score" id="away-score">0</div>
+      </div>
+
+      <!-- Away team -->
+      <div class="cell team away" id="away-team-wrap">
+        <div class="team-name" id="away-team">VISITA</div>
+        <div class="logo" id="away-logo"></div>
+      </div>
+
+      <!-- Goal Celebration Overlay (inside scoreboard bar) -->
+      <div id="goal-overlay" class="goal-overlay" aria-hidden="true">
+        <div class="goal-slash goal-slash-1"></div>
+        <div class="goal-slash goal-slash-2"></div>
+        <div class="goal-content">
+          <div class="goal-logo-frame">
+            <span class="goal-logo-placeholder">LOGO</span>
+          </div>
+          <div class="goal-text-section">
+            <div class="goal-title"></div>
+            <div class="goal-name-bar">
+              <span class="goal-team-name">EQUIPO</span>
+            </div>
+          </div>
+        </div>
+        <div class="goal-score-flash"></div>
+        <div class="goal-accent-top"></div>
+        <div class="goal-accent-bottom"></div>
+      </div>
+    </div>
+
+    <!-- Halftime Ads Overlay -->
+    <div id="halftime-overlay" class="halftime-overlay" aria-hidden="true">
+      <div class="halftime-accent-top"></div>
+      <div class="halftime-carousel">
+        <!-- Banners injected dynamically -->
+      </div>
+      <div class="halftime-progress">
+        <div class="halftime-progress-bar"></div>
+      </div>
+      <div class="halftime-accent-bottom"></div>
+    </div>
+
+    <div class="card menu">
+      <h3>Menu</h3>
+      <div class="buttons">
+        <button id="refresh">Refrescar</button>
+        <button id="fullscreen">Fullscreen</button>
+        <button id="replay-entrance">Replay Entrada</button>
+      </div>
+    </div>
+
+    <script src="/scoreboard.js"></script>
+  </body>
+</html>

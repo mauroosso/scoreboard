@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control Scoreboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/control.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <div class="header-icon">&#9881;</div>
+        <h1>Control Scoreboard <span>Panel de operador</span></h1>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Equipos</h3>
+          <div class="row">
+            <div>
+              <label for="homeTeam">Local</label>
+              <input id="homeTeam" value="LOCAL" />
+            </div>
+            <div>
+              <label for="awayTeam">Visita</label>
+              <input id="awayTeam" value="VISITA" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="homeLogoUrl">Logo local URL</label>
+              <input id="homeLogoUrl" placeholder="https://..." />
+            </div>
+            <div>
+              <label for="awayLogoUrl">Logo visita URL</label>
+              <input id="awayLogoUrl" placeholder="https://..." />
+            </div>
+          </div>
+          <div class="row">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label for="homeColor">Color local</label>
+              <input id="homeColor" type="color" value="#1a2156" style="width:48px;height:32px;padding:0;border:1px solid rgba(255,255,255,0.15);border-radius:4px;cursor:pointer;background:transparent;" />
+              <input id="homeColorHex" placeholder="#c8102e" style="width:90px;font-size:12px;" />
+              <button type="button" id="clearHomeColor" style="padding:4px 8px;font-size:11px;">✕</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <label for="awayColor">Color visita</label>
+              <input id="awayColor" type="color" value="#1a2156" style="width:48px;height:32px;padding:0;border:1px solid rgba(255,255,255,0.15);border-radius:4px;cursor:pointer;background:transparent;" />
+              <input id="awayColorHex" placeholder="#0033a0" style="width:90px;font-size:12px;" />
+              <button type="button" id="clearAwayColor" style="padding:4px 8px;font-size:11px;">✕</button>
+            </div>
+          </div>
+          <div class="btn-spacer">
+            <button class="primary" id="saveTeams">Guardar equipos</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Score</h3>
+          <div class="row">
+            <div>
+              <label for="homeScore">Score local</label>
+              <input id="homeScore" type="number" min="0" value="0" />
+            </div>
+            <div>
+              <label for="awayScore">Score visita</label>
+              <input id="awayScore" type="number" min="0" value="0" />
+            </div>
+          </div>
+          <div class="btn-spacer">
+            <button class="primary" id="setScore">Setear score</button>
+          </div>
+          <div class="buttons" style="margin-top: 12px;">
+            <button id="goalHome">+1 Local</button>
+            <button id="goalAway">+1 Visita</button>
+            <button id="undoHome">-1 Local</button>
+            <button id="undoAway">-1 Visita</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Reloj</h3>
+          <div class="row-3">
+            <div>
+              <label for="minutes">Minutos</label>
+              <input id="minutes" type="number" min="0" value="0" />
+            </div>
+            <div>
+              <label for="seconds">Segundos</label>
+              <input id="seconds" type="number" min="0" max="59" value="0" />
+            </div>
+            <div>
+              <label for="period">Periodo</label>
+              <input id="period" type="number" min="1" value="1" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="status">Estado</label>
+              <select id="status">
+                <option>PRE</option>
+                <option>LIVE</option>
+                <option>PAUSED</option>
+                <option>BREAK</option>
+                <option>ENDED</option>
+              </select>
+            </div>
+            <div>
+              <label for="periodDuration">Duracion periodo (min)</label>
+              <input id="periodDuration" type="number" min="1" value="15" />
+            </div>
+          </div>
+          <div class="btn-spacer">
+            <button class="primary" id="setClock">Setear reloj</button>
+          </div>
+          <div class="buttons" style="margin-top: 12px;">
+            <button id="startClock">Iniciar</button>
+            <button id="pauseClock">Pausar</button>
+            <button id="resetClock">Reset reloj</button>
+            <button id="nextPeriod">Sig. periodo</button>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: 1 / -1;">
+          <h3>Publicidad Entretiempo</h3>
+          <p style="font-size: 12px; color: #8b98b3; margin-bottom: 10px;">
+            Se muestran automáticamente cuando el estado del partido es <strong>BREAK</strong>.
+            Si no hay banners cargados, aparece una pantalla neutra de entretiempo.
+          </p>
+          <div id="bannersList" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;"></div>
+          <div class="buttons">
+            <button id="addBanner">+ Agregar banner</button>
+            <button class="primary" id="saveBanners">Guardar publicidades</button>
+            <button id="previewHalftime">Preview (forzar BREAK)</button>
+            <button id="endHalftime">Fin entretiempo (LIVE)</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Estado actual</h3>
+          <pre id="state">Cargando...</pre>
+          <div class="buttons">
+            <button id="refresh">Refrescar</button>
+            <button class="danger" id="resetMatch">Reset match</button>
+            <button id="openDisplay">Abrir pantalla</button>
+            <button id="fullscreen">Fullscreen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      async function sendAction(action) {
+        const response = await fetch('/api/action', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(action)
+        });
+        const data = await response.json();
+        if (!data.ok) throw new Error(data.error || 'Error desconocido');
+        await loadState();
+      }
+
+      async function loadState() {
+        const response = await fetch('/api/state');
+        const data = await response.json();
+        document.getElementById('state').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('homeTeam').value = data.homeTeam;
+        document.getElementById('awayTeam').value = data.awayTeam;
+        document.getElementById('homeLogoUrl').value = data.homeLogoUrl || '';
+        document.getElementById('awayLogoUrl').value = data.awayLogoUrl || '';
+        document.getElementById('homeColorHex').value = data.homeColor || '';
+        document.getElementById('awayColorHex').value = data.awayColor || '';
+        if (data.homeColor) document.getElementById('homeColor').value = data.homeColor;
+        if (data.awayColor) document.getElementById('awayColor').value = data.awayColor;
+        document.getElementById('homeScore').value = data.homeScore;
+        document.getElementById('awayScore').value = data.awayScore;
+        document.getElementById('period').value = data.period;
+        document.getElementById('status').value = data.status;
+        document.getElementById('periodDuration').value = Math.round(data.clock.periodDurationMs / 60000);
+        const totalSeconds = Math.floor(data.clock.elapsedMs / 1000);
+        document.getElementById('minutes').value = Math.floor(totalSeconds / 60);
+        document.getElementById('seconds').value = totalSeconds % 60;
+      }
+
+      // Sync color picker <-> hex input
+      function syncColorInputs(pickerId, hexId) {
+        const picker = document.getElementById(pickerId);
+        const hex = document.getElementById(hexId);
+        picker.addEventListener('input', () => { hex.value = picker.value; });
+        hex.addEventListener('input', () => {
+          if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) picker.value = hex.value;
+        });
+      }
+      syncColorInputs('homeColor', 'homeColorHex');
+      syncColorInputs('awayColor', 'awayColorHex');
+
+      document.getElementById('clearHomeColor').onclick = () => {
+        document.getElementById('homeColor').value = '#1a2156';
+        document.getElementById('homeColorHex').value = '';
+      };
+      document.getElementById('clearAwayColor').onclick = () => {
+        document.getElementById('awayColor').value = '#1a2156';
+        document.getElementById('awayColorHex').value = '';
+      };
+
+      document.getElementById('saveTeams').onclick = () => sendAction({
+        type: 'SET_TEAMS',
+        homeTeam: document.getElementById('homeTeam').value,
+        awayTeam: document.getElementById('awayTeam').value,
+        homeLogoUrl: document.getElementById('homeLogoUrl').value,
+        awayLogoUrl: document.getElementById('awayLogoUrl').value,
+        homeColor: document.getElementById('homeColorHex').value || '',
+        awayColor: document.getElementById('awayColorHex').value || ''
+      }).catch(alert);
+
+      document.getElementById('setScore').onclick = () => sendAction({
+        type: 'SET_SCORE',
+        homeScore: Number(document.getElementById('homeScore').value),
+        awayScore: Number(document.getElementById('awayScore').value)
+      }).catch(alert);
+
+      document.getElementById('goalHome').onclick = () => sendAction({ type: 'GOAL_HOME' }).catch(alert);
+      document.getElementById('goalAway').onclick = () => sendAction({ type: 'GOAL_AWAY' }).catch(alert);
+      document.getElementById('undoHome').onclick = () => sendAction({ type: 'UNDO_GOAL_HOME' }).catch(alert);
+      document.getElementById('undoAway').onclick = () => sendAction({ type: 'UNDO_GOAL_AWAY' }).catch(alert);
+      document.getElementById('startClock').onclick = () => sendAction({ type: 'START_CLOCK' }).catch(alert);
+      document.getElementById('pauseClock').onclick = () => sendAction({ type: 'PAUSE_CLOCK' }).catch(alert);
+      document.getElementById('resetClock').onclick = () => sendAction({ type: 'RESET_CLOCK' }).catch(alert);
+      document.getElementById('nextPeriod').onclick = () => sendAction({ type: 'NEXT_PERIOD' }).catch(alert);
+      document.getElementById('resetMatch').onclick = () => sendAction({ type: 'RESET_MATCH' }).catch(alert);
+      document.getElementById('refresh').onclick = () => loadState().catch(alert);
+
+      document.getElementById('setClock').onclick = async () => {
+        const minutes = Number(document.getElementById('minutes').value);
+        const seconds = Number(document.getElementById('seconds').value);
+        const elapsedMs = ((minutes * 60) + seconds) * 1000;
+        const period = Number(document.getElementById('period').value);
+        const status = document.getElementById('status').value;
+        const periodDurationMs = Number(document.getElementById('periodDuration').value) * 60 * 1000;
+
+        await sendAction({ type: 'SET_CLOCK_MS', elapsedMs });
+        await sendAction({ type: 'SET_PERIOD', period });
+        await sendAction({ type: 'SET_STATUS', status });
+        await sendAction({ type: 'SET_PERIOD_DURATION_MS', periodDurationMs });
+      };
+
+      document.getElementById('openDisplay').onclick = () => window.open('/', '_blank');
+      document.getElementById('fullscreen').onclick = () => document.documentElement.requestFullscreen().catch(alert);
+
+      /* ── Halftime banners management ── */
+      let banners = [];
+
+      function renderBanners() {
+        const list = document.getElementById('bannersList');
+        if (!list) return;
+        list.innerHTML = '';
+        if (banners.length === 0) {
+          list.innerHTML = '<div style="font-size:12px;color:#8b98b3;font-style:italic;">Sin banners. Click en "+ Agregar banner".</div>';
+          return;
+        }
+        banners.forEach((banner, idx) => {
+          const row = document.createElement('div');
+          row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr 90px 44px 32px;gap:6px;align-items:center;padding:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);border-radius:6px;';
+          row.innerHTML = `
+            <input data-field="title" placeholder="Título" value="${escapeAttr(banner.title || '')}" style="font-size:12px;" />
+            <input data-field="subtitle" placeholder="Subtítulo" value="${escapeAttr(banner.subtitle || '')}" style="font-size:12px;" />
+            <input data-field="image" placeholder="Imagen URL" value="${escapeAttr(banner.image || '')}" style="font-size:12px;" />
+            <input data-field="sponsorName" placeholder="Sponsor" value="${escapeAttr(banner.sponsorName || '')}" style="font-size:12px;" />
+            <input data-field="backgroundColor" type="color" value="${banner.backgroundColor || '#0d1137'}" style="padding:0;width:44px;height:30px;border:1px solid rgba(255,255,255,0.15);border-radius:4px;cursor:pointer;background:transparent;" />
+            <button type="button" data-remove="${idx}" style="padding:4px 8px;font-size:12px;color:#ff4c6b;border-color:rgba(255,76,107,0.3);">✕</button>
+          `;
+          row.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', () => {
+              banners[idx][input.dataset.field] = input.value;
+            });
+          });
+          row.querySelector('[data-remove]').addEventListener('click', () => {
+            banners.splice(idx, 1);
+            renderBanners();
+          });
+          list.appendChild(row);
+        });
+      }
+
+      function escapeAttr(s) {
+        return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      }
+
+      async function loadBanners() {
+        const response = await fetch('/api/banners');
+        const data = await response.json();
+        banners = Array.isArray(data.banners) ? data.banners : [];
+        renderBanners();
+      }
+
+      async function saveBanners() {
+        const response = await fetch('/api/banners', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ banners })
+        });
+        const data = await response.json();
+        if (!data.ok) throw new Error(data.error || 'Error guardando banners');
+        banners = data.banners;
+        renderBanners();
+      }
+
+      document.getElementById('addBanner').onclick = () => {
+        banners.push({
+          title: 'Sponsor',
+          subtitle: '',
+          image: '',
+          sponsorName: '',
+          backgroundColor: '#0d1137'
+        });
+        renderBanners();
+      };
+      document.getElementById('saveBanners').onclick = () => saveBanners().catch(alert);
+      document.getElementById('previewHalftime').onclick = async () => {
+        await saveBanners();
+        await sendAction({ type: 'SET_STATUS', status: 'BREAK' });
+      };
+      document.getElementById('endHalftime').onclick = () =>
+        sendAction({ type: 'SET_STATUS', status: 'LIVE' }).catch(alert);
+
+      loadState().catch(alert);
+      loadBanners().catch(alert);
+    </script>
+  </body>
+</html>

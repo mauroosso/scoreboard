@@ -1,0 +1,1070 @@
+:root {
+  --width: 768px;
+  --height: 128px;
+  --navy: #0d1137;
+  --navy-deep: #080b24;
+  --navy-mid: #141a42;
+  --panel-home: #1a2156;
+  --panel-away: #1a2156;
+  --team-home-color: var(--panel-home);
+  --team-away-color: var(--panel-away);
+  --team-home-text: #ffffff;
+  --team-away-text: #ffffff;
+  --surface: #0f1430;
+  --text: #ffffff;
+  --text-secondary: #c0c8e4;
+  --accent: #00e5ff;
+  --accent-glow: rgba(0, 229, 255, 0.35);
+  --accent-green: #00e676;
+  --accent-green-glow: rgba(0, 230, 118, 0.30);
+  --danger: #ff4c6b;
+  --danger-glow: rgba(255, 76, 107, 0.30);
+  --gold: #ffd740;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(0, 229, 255, 0.25);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: 'Inter', 'Roboto Condensed', Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* ──────── MAIN CONTAINER ──────── */
+#app {
+  position: relative;
+  width: var(--width);
+  height: var(--height);
+  background: var(--navy-deep);
+  color: var(--text);
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+#app::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--accent) 0%, var(--accent) 20%,
+    var(--accent-green) 45%, var(--accent-green) 55%,
+    var(--accent) 80%, var(--accent) 100%
+  );
+  z-index: 10;
+}
+
+#app::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(0,229,255,0.15) 30%,
+    rgba(0,230,118,0.2) 50%, rgba(0,229,255,0.15) 70%,
+    transparent 100%
+  );
+  z-index: 10;
+}
+
+.disconnected {
+  outline: 2px solid var(--danger) !important;
+  outline-offset: -2px;
+}
+
+/* ──────── TEAM PANELS ──────── */
+.cell.team {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  z-index: 2;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.cell.team::before {
+  content: '';
+  position: absolute;
+  inset: 3px 0 2px 0;
+  z-index: -1;
+}
+
+#home-team-wrap::before {
+  background: linear-gradient(135deg, var(--team-home-color) 0%, var(--navy-mid) 100%);
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+}
+
+#away-team-wrap::before {
+  background: linear-gradient(225deg, var(--team-away-color) 0%, var(--navy-mid) 100%);
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.cell.team::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  height: 2px;
+  z-index: 5;
+}
+
+#home-team-wrap::after {
+  left: 0; width: 85%;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+#away-team-wrap::after {
+  right: 0; width: 85%;
+  background: linear-gradient(270deg, var(--accent), transparent);
+}
+
+.cell.team.away {
+  justify-content: flex-end;
+}
+
+/* ──────── LOGO ──────── */
+.logo {
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.10);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.logo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+#home-team-wrap .team-name {
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--team-home-text);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+
+#away-team-wrap .team-name {
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--team-away-text);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+
+/* ──────── SCORE CELLS ──────── */
+.cell.score-cell {
+  position: relative;
+  flex: 0 0 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.cell.score-cell::before {
+  content: '';
+  position: absolute;
+  inset: 3px 0 2px 0;
+  z-index: -1;
+}
+
+.cell.score-cell.home::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--team-home-color) 25%, var(--navy-mid)) 0%, var(--navy) 100%);
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.cell.score-cell.away::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--team-away-color) 25%, var(--navy-mid)) 0%, var(--navy) 100%);
+  clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%);
+}
+
+.cell.score-cell.home::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 15%; bottom: 15%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border-accent), transparent);
+}
+
+.cell.score-cell.away::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 15%; bottom: 15%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--border-accent), transparent);
+}
+
+.score {
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--text);
+  text-shadow: 0 0 30px var(--accent-glow), 0 2px 10px rgba(0,0,0,0.8);
+}
+
+/* ──────── CENTER / CLOCK ──────── */
+#clock-container {
+  position: relative;
+  flex: 0 0 132px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  gap: 2px;
+}
+
+#clock-container::before {
+  content: '';
+  position: absolute;
+  inset: 3px -6px 2px -6px;
+  background: linear-gradient(180deg, #111640 0%, #0a0d2e 100%);
+  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+  z-index: -1;
+  border: 1px solid var(--border-accent);
+}
+
+.clock {
+  font-family: 'Roboto Condensed', 'Inter', monospace;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-shadow: 0 0 20px var(--accent-glow), 0 1px 6px rgba(0,0,0,0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.meta {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: var(--text-secondary);
+}
+
+/* ──────── STATUS COLORS ──────── */
+.status-live {
+  color: var(--accent-green) !important;
+  background: rgba(0,230,118,0.10) !important;
+  border-color: rgba(0,230,118,0.30) !important;
+  text-shadow: 0 0 8px var(--accent-green-glow);
+}
+
+.status-paused {
+  color: var(--gold) !important;
+  background: rgba(255,215,64,0.08) !important;
+  border-color: rgba(255,215,64,0.25) !important;
+}
+
+.status-pre, .status-break {
+  color: var(--text-secondary) !important;
+}
+
+.status-ended {
+  color: var(--danger) !important;
+  background: rgba(255,76,107,0.08) !important;
+  border-color: rgba(255,76,107,0.25) !important;
+}
+
+/* ──────── LIVE PULSE INDICATOR ──────── */
+.status-live::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  margin-right: 4px;
+  box-shadow: 0 0 6px var(--accent-green);
+  animation: pulse 1.5s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ──────── GEOMETRIC ACCENT DECORATIONS ──────── */
+.accent-left, .accent-right {
+  position: absolute;
+  z-index: 1;
+}
+
+.accent-left {
+  left: 0; top: 3px; bottom: 2px;
+  width: 6px;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 8%, 100% 92%, 0 100%);
+}
+
+.accent-right {
+  right: 0; top: 3px; bottom: 2px;
+  width: 6px;
+  background: var(--accent);
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 92%);
+}
+
+/* ──────── MENU ──────── */
+.menu {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  z-index: 100;
+}
+
+.card {
+  background: rgba(15,20,48,0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,229,255,0.15);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.card h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  border: 1px solid rgba(0,229,255,0.2);
+  background: rgba(0,229,255,0.08);
+  color: var(--accent);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  background: rgba(0,229,255,0.18);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* ══════════════════════════════════════════════════
+   GOAL CELEBRATION OVERLAY — Broadcast-quality
+   Team-color tinted, letter-by-letter reveal
+   ══════════════════════════════════════════════════ */
+
+.goal-overlay {
+  --goal-color: var(--accent);
+  --goal-color-rgb: 0, 229, 255;
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(5, 5, 5, 0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.goal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.goal-overlay.exiting {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* ── Accent lines top/bottom using team color ── */
+.goal-accent-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 60;
+  background: linear-gradient(90deg, var(--goal-color), color-mix(in srgb, var(--goal-color) 60%, white), var(--goal-color));
+  box-shadow: 0 0 14px rgba(var(--goal-color-rgb), 0.7);
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.goal-overlay.active .goal-accent-top {
+  animation: goalAccentTopIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes goalAccentTopIn {
+  to { transform: scaleX(1); }
+}
+
+.goal-accent-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 60;
+  background: linear-gradient(90deg, transparent, rgba(var(--goal-color-rgb), 0.5), transparent);
+  opacity: 0;
+}
+
+.goal-overlay.active .goal-accent-bottom {
+  animation: goalAccentBottomIn 0.3s ease 0.2s forwards;
+}
+
+@keyframes goalAccentBottomIn {
+  to { opacity: 1; }
+}
+
+/* ── Geometric Slashes using team color ── */
+.goal-slash {
+  position: absolute;
+}
+
+.goal-slash-1 {
+  width: 120%;
+  height: 100%;
+  background: #080808;
+  border-top: 1px solid rgba(var(--goal-color-rgb), 0.4);
+  border-bottom: 1px solid rgba(var(--goal-color-rgb), 0.4);
+  z-index: 1;
+  transform: translateX(-120%) skewX(-15deg);
+}
+
+.goal-overlay.active .goal-slash-1 {
+  animation: goalSlashIn1 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.goal-overlay.exiting .goal-slash-1 {
+  animation: goalSlashOut1 0.3s ease-in forwards;
+}
+
+@keyframes goalSlashIn1 {
+  to { transform: translateX(-8%) skewX(-15deg); }
+}
+
+@keyframes goalSlashOut1 {
+  to { transform: translateX(120%) skewX(-15deg); }
+}
+
+.goal-slash-2 {
+  width: 110%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(90deg, var(--goal-color), color-mix(in srgb, var(--goal-color) 70%, white), var(--goal-color));
+  box-shadow: 0 0 50px rgba(var(--goal-color-rgb), 0.4);
+  transform: translateX(120%) skewX(-15deg);
+}
+
+.goal-overlay.active .goal-slash-2 {
+  animation: goalSlashIn2 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.06s forwards;
+}
+
+.goal-overlay.exiting .goal-slash-2 {
+  animation: goalSlashOut2 0.3s ease-in forwards;
+}
+
+@keyframes goalSlashIn2 {
+  to { transform: translateX(-4%) skewX(-15deg); }
+}
+
+@keyframes goalSlashOut2 {
+  to { transform: translateX(-120%) skewX(-15deg); }
+}
+
+/* ── Radial glow behind content ── */
+.goal-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse 60% 100% at 50% 50%, rgba(var(--goal-color-rgb), 0.12) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.goal-overlay.active::before {
+  animation: goalGlowPulse 1.8s ease-in-out 0.3s forwards;
+}
+
+@keyframes goalGlowPulse {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 0.6; }
+  100% { opacity: 0.4; }
+}
+
+/* ── Main Content ── */
+.goal-content {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  gap: 20px;
+}
+
+/* ── Team Logo inside overlay ── */
+.goal-logo-frame {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transform: scale(0) rotate(-20deg);
+  opacity: 0;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.7), 0 0 40px rgba(var(--goal-color-rgb), 0.25);
+}
+
+.goal-overlay.active .goal-logo-frame {
+  animation: goalLogoIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+@keyframes goalLogoIn {
+  to { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.goal-logo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.goal-logo-placeholder {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* ── Text Section ── */
+.goal-text-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* ── Letter-by-letter title ── */
+.goal-title {
+  font-family: 'Roboto Condensed', 'Inter', Arial, sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  font-style: italic;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+}
+
+.goal-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px) scale(0.6);
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8), 0 0 30px rgba(var(--goal-color-rgb), 0.3);
+}
+
+.goal-overlay.active .goal-letter {
+  animation: goalLetterIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes goalLetterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Final flash on last letter */
+.goal-letter.goal-letter-final {
+  color: var(--goal-color);
+  text-shadow: 0 0 20px rgba(var(--goal-color-rgb), 0.6), 3px 3px 0px rgba(0, 0, 0, 0.8);
+}
+
+/* ── Team name bar ── */
+.goal-name-bar {
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.goal-overlay.active .goal-name-bar {
+  animation: goalNameIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) var(--goal-name-delay, 0.7s) forwards;
+}
+
+@keyframes goalNameIn {
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.goal-team-name {
+  display: inline-block;
+  background: var(--goal-color);
+  padding: 2px 16px;
+  transform: skewX(-12deg);
+  font-family: 'Roboto Condensed', 'Inter', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Score flash (new score pops in) ── */
+.goal-score-flash {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  opacity: 0;
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 30px rgba(var(--goal-color-rgb), 0.5), 0 2px 10px rgba(0, 0, 0, 0.8);
+  z-index: 25;
+}
+
+.goal-overlay.active .goal-score-flash {
+  animation: goalScoreIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) var(--goal-score-delay, 0.5s) forwards;
+}
+
+@keyframes goalScoreIn {
+  0% { transform: translateY(-50%) scale(0); opacity: 0; }
+  60% { transform: translateY(-50%) scale(1.15); opacity: 1; }
+  100% { transform: translateY(-50%) scale(1); opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════
+   HALFTIME ADS — Broadcast-style carousel
+   ══════════════════════════════════════════════════ */
+
+.halftime-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--width);
+  height: var(--height);
+  z-index: 40;
+  overflow: hidden;
+  background: var(--navy-deep);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.halftime-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.halftime-overlay.exiting {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.45s ease,
+              transform 0.45s ease;
+}
+
+/* ── Accent bars ── */
+.halftime-accent-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 10;
+  background: linear-gradient(90deg,
+    var(--accent) 0%, var(--gold) 40%,
+    var(--gold) 60%, var(--accent) 100%
+  );
+  box-shadow: 0 0 12px rgba(255, 215, 64, 0.5);
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+.halftime-overlay.active .halftime-accent-top {
+  animation: htAccentIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+}
+
+@keyframes htAccentIn {
+  to { transform: scaleX(1); }
+}
+
+.halftime-accent-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 10;
+  background: linear-gradient(90deg,
+    transparent, rgba(255, 215, 64, 0.3), transparent
+  );
+  opacity: 0;
+}
+
+.halftime-overlay.active .halftime-accent-bottom {
+  animation: htAccentBottomIn 0.3s ease 0.3s forwards;
+}
+
+@keyframes htAccentBottomIn {
+  to { opacity: 1; }
+}
+
+/* ── Carousel container ── */
+.halftime-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Individual banner slide (full-bleed, crossfade) ── */
+.halftime-slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--slide-bg, var(--navy-deep));
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+  will-change: opacity, transform;
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.halftime-slide.slide-active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ── Full-bleed sponsor image (acts as the full background) ── */
+.halftime-slide-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.halftime-slide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.halftime-slide-image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* ── Text card (shown when a banner has no image) ── */
+.halftime-slide-text {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 32px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.halftime-slide-title {
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.halftime-slide-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.halftime-slide-sponsor {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 10px;
+  background: rgba(255, 215, 64, 0.12);
+  border: 1px solid rgba(255, 215, 64, 0.25);
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  width: fit-content;
+}
+
+/* ── Progress bar (carousel timer) ── */
+.halftime-progress {
+  position: absolute;
+  bottom: 2px;
+  left: 0; right: 0;
+  height: 2px;
+  z-index: 15;
+  background: transparent;
+  overflow: hidden;
+}
+
+.halftime-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--accent));
+  box-shadow: 0 0 8px rgba(255, 215, 64, 0.4);
+  transition: width 0.3s linear;
+}
+
+.halftime-progress-bar.animating {
+  transition: width var(--slide-duration, 6s) linear;
+  width: 100%;
+}
+
+/* ── No-banner fallback ── */
+.halftime-empty {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.halftime-empty-icon {
+  font-size: 28px;
+  opacity: 0.4;
+}
+
+.halftime-empty-text {
+  font-family: 'Roboto Condensed', 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+}
+
+/* ══════════════════════════════════════════════════
+   SCOREBOARD ENTRANCE ANIMATION — Broadcast style
+   Inspired by Champions League / Premier League
+   ══════════════════════════════════════════════════ */
+
+/* ── Initial hidden state: all parts start invisible ── */
+#app.sb-enter #home-team-wrap {
+  transform: translateX(-110%);
+  opacity: 0;
+}
+
+#app.sb-enter #away-team-wrap {
+  transform: translateX(110%);
+  opacity: 0;
+}
+
+#app.sb-enter .cell.score-cell.home {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+}
+
+#app.sb-enter .cell.score-cell.away {
+  clip-path: inset(0 0 0 100%);
+  opacity: 0;
+}
+
+#app.sb-enter #clock-container {
+  transform: scale(0.3);
+  opacity: 0;
+}
+
+#app.sb-enter .accent-left {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+#app.sb-enter .accent-right {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+#app.sb-enter::before {
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+#app.sb-enter::after {
+  opacity: 0;
+}
+
+#app.sb-enter .meta {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ── Animated state: staggered reveal ── */
+#app.sb-animate #home-team-wrap {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms,
+              opacity 400ms ease 100ms;
+}
+
+#app.sb-animate #away-team-wrap {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms,
+              opacity 400ms ease 100ms;
+}
+
+#app.sb-animate .cell.score-cell.home {
+  clip-path: inset(0 0 0 0);
+  opacity: 1;
+  transition: clip-path 500ms cubic-bezier(0.16, 1, 0.3, 1) 250ms,
+              opacity 300ms ease 250ms;
+}
+
+#app.sb-animate .cell.score-cell.away {
+  clip-path: inset(0 0 0 0);
+  opacity: 1;
+  transition: clip-path 500ms cubic-bezier(0.16, 1, 0.3, 1) 250ms,
+              opacity 300ms ease 250ms;
+}
+
+#app.sb-animate #clock-container {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 550ms cubic-bezier(0.16, 1, 0.3, 1) 350ms,
+              opacity 350ms ease 350ms;
+}
+
+#app.sb-animate .accent-left {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1) 50ms,
+              opacity 300ms ease 50ms;
+}
+
+#app.sb-animate .accent-right {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1) 50ms,
+              opacity 300ms ease 50ms;
+}
+
+#app.sb-animate::before {
+  transform: scaleX(1);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 200ms;
+}
+
+#app.sb-animate::after {
+  opacity: 1;
+  transition: opacity 500ms ease 600ms;
+}
+
+#app.sb-animate .meta {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms ease 650ms,
+              transform 400ms cubic-bezier(0.16, 1, 0.3, 1) 650ms;
+}
+
+/* ── Subtle flash/shine sweep on the top accent bar ── */
+@keyframes sbTopSweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+#app.sb-animate::before {
+  background-size: 200% 100%;
+  animation: sbTopSweep 1.2s ease 800ms 1;
+}
